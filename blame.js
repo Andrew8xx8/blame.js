@@ -94,8 +94,10 @@
                 deleted += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color':'red'});                        
             }
         }  
-        committed_date = new Date(data.commit.committed_date);
+
+        committed_date = new Date(data.commit.committed_date);        
         authored_date = new Date(data.commit.authored_date); 
+
         popup = blame.fetchTemplate(blame.popupTemplate, {
             'modified' : modified,
             'added'    : added,
