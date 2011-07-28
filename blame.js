@@ -30,7 +30,7 @@
     blame = globals.blame = {};
 	blame.showTemplate = "[ show \u2193 ]";
 	blame.hideTemplate = "[ hide \u2191 ]";
-    blame.fileTemplate = '<div><a href="{href}">{name}</a></div><br/>';
+    blame.fileTemplate = '<div><a href="{href}" style="color: {color}">{name}</a></div><br/>';
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
@@ -74,20 +74,21 @@
         if ( data.commit.added != null) {
             added = '';
             for (var i in data.commit.added) {
-                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i]});                        
+                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color': 'green'});                        
             }
         }
         
         if ( data.commit.modified != null) {
             modified = '';
             for (var i in data.commit.modified) {
-                modified += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.modified[i].filename});                        
+                modified += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.modified[i].filename, 'color' : 'blue'});                        
             }
         } 
 
         if ( data.commit.added != null) {
+            deleted = '';
             for (var i in data.commit.added) {
-                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i]});                        
+                deleted += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color':'red'});                        
             }
         }  
 
