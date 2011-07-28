@@ -43,7 +43,7 @@
             'Authored date: {authored_date} <br/>'+ 
             'by <a href="http://github.com/{userlogin}">{username}</a></p>'+                
             '<h4>Message</h4>' +
-            '<p>{message}</p>' +
+            '<p style="max-width: 490px;">{message}</p>' +
        '</div>' +  
     '</div>' + 
     '<div class="blame-block" style="position: relative;">' + 
@@ -101,7 +101,10 @@
             'deleted'  : deleted,
             'username' : data.commit.author.name,
             'email'    : data.commit.author.email,
-            'userlogin': data.commit.author.login
+            'userlogin': data.commit.author.login,
+            'message'  : data.commit.message,
+            'committed_date': data.commit.committed_date,
+            'authored_date' : data.commit.authored_date
         });
 
         $('#blame-popup').html(popup);
