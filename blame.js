@@ -34,7 +34,7 @@
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
-        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Commit: {commit_hash}</h3>' +
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
         '<div class="blame-info" style="padding: 5px 10px">' +
             '<p style="margin-left: 30px;">Committed date: {committed_date} <br/>'+
             'Authored date: {authored_date} <br/>'+ 
@@ -44,16 +44,16 @@
        '</div>' +  
     '</div>' + 
     '<div class="blame-block" style="position: relative;">' + 
-        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Diff</h3>' +
-		'<span style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Diff</h3>' +
+		'<span class="s-h" style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
         '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
             '{diff}' +
        '</div>' +   
     '</div>' +     
     '<div class="blame-block" style="position: relative;">' + 
-        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Files</h3>' +
-		'<span style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
-        '<div class="blame-info" style="padding: 5px 10px display:none;">' + 
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Files</h3>' +
+		'<span class="s-h" style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
+        '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
             '<h4>Modified</h4>' +
             '<p>{modified}</p>' +
             '<h4>Added:</h4>' +
