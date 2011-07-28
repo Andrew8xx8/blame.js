@@ -94,7 +94,8 @@
                 deleted += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color':'red'});                        
             }
         }  
-
+        committed_date = new Date(data.commit.committed_date);
+        authored_date = new Date(data.commit.authored_date); 
         popup = blame.fetchTemplate(blame.popupTemplate, {
             'modified' : modified,
             'added'    : added,
@@ -103,8 +104,8 @@
             'email'    : data.commit.author.email,
             'userlogin': data.commit.author.login,
             'message'  : data.commit.message,
-            'committed_date': data.commit.committed_date,
-            'authored_date' : data.commit.authored_date
+            'committed_date': committed_date.toLocaleDateString() + ' ' + committed_date.toLocaleTimeString(),  
+            'authored_date' : authored_date.toLocaleDateString() + ' ' + authored_date.toLocaleTimeString(),    
         });
 
         $('#blame-popup').html(popup);
