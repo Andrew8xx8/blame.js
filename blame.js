@@ -28,6 +28,9 @@
     }, 
 
     blame = globals.blame = {};
+
+    blame.cache = {}; 
+
 	blame.showTemplate = "[ show \u2193 ]";
 	blame.hideTemplate = "[ hide \u2191 ]";
     blame.fileTemplate = '<div><a href="{href}" style="color: {color}">{name}</a></div><br/>';
