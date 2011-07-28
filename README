@@ -1,0 +1,7 @@
+blame.js is user JavaScript file wich will be include to github page and adds new feachures on blame page.
+
+Feachures:
+    - selects all same commits in one color;
+    - show addition information about commit.
+
+
