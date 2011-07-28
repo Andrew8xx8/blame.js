@@ -153,7 +153,7 @@
             $('.blame .commitinfo').css({'background-color': 'transparent'});
             $('.blame .commitinfo code a').each(function(index, value){            
                 if(current_commit == $(value).html()) {
-                    $(value).parent().parent().css({'background-color': '#faa'});
+                    $(value).parent().parent().css({'background-color': '#dfa'});
                 }
             });        
 
