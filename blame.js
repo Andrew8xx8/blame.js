@@ -29,12 +29,41 @@
 
     blame = globals.blame = {};
 
-    blame.fileTemplate = '<span><a href="{href}">{name}</a></span><br/>';
-    blame.popupTemplate = '<h3>Commit</h3>'
-        + '<h4>Modified</h4>{modified}'
-        + '<h4>Added:</h4>{added}'
-        + '<h4>Deleted</h4>{deleted}' 
-        + '<div>Committed by <a href="http://github.com/{userlogin}">{username}</a></div>'; 
+    blame.fileTemplate = '<div><a href="{href}">{name}</a></div><br/>';
+    blame.popupTemplate = 
+    '<div class="blame-block">' +
+        '<h3 style="background: #eaf2f4; padding: 10px 20px; margin:0; border-bottom: 1px solid #e1e4e5">Commit: {commit_hash}</h3>' +
+        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' +
+            '<p style="margin-left: 30px;">Committed date: {committed_date} <br/>'+
+            'Authored date: {authored_date} <br/>'+ 
+            'by <a href="http://github.com/{userlogin}">{username}</a></p>'+                
+            '<h4>Message</h4>' +
+            '<p>{message}</p>' +
+       '</div>' +  
+    '</div>' +
+    '<div class="blame-block">' + 
+        '<h3 style="background: #e2f4fa; padding: 10px 20px; margin:0; border-bottom: 1px solid #e5e1e4">Files</h3>' +
+        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' + 
+            '<h4>Modified</h4>' +
+            '<p>{modified}</p>' +
+            '<h4>Added:</h4>' +
+            '<p>{added}</p>' +
+            '<h4>Deleted</h4>' +
+            '<p>{deleted}</p>' +
+       '</div>' +   
+    '</div>' +     
+    '<div class="blame-block">' + 
+        '<h3 style="background: #e2f4fa; padding: 10px 20px; margin:0; border-bottom: 1px solid #e5e1e4">Files</h3>' +
+        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' + 
+            '<h4>Modified</h4>' +
+            '<p>{modified}</p>' +
+            '<h4>Added:</h4>' +
+            '<p>{added}</p>' +
+            '<h4>Deleted</h4>' +
+            '<p>{deleted}</p>' +
+       '</div>' +   
+    '</div>';
+        
 
     blame.popupPosition = {x: '0px', y: '0px'};
     blame.lock = false;
@@ -115,13 +144,13 @@
         $('body').append('<div id="blame-popup"></div>');  
         $('#blame-popup').css({
             'position': 'absolute',
-            'width':    '300px',
+            'width':    'auto',
             'z-index': '100500',
             'display': 'none',       
             'background': '#fff',
-            'opacity': 0.9,
-            'padding': '20px',
-            'padding-top': '10px'
+            'padding': '4px',
+            'padding-top': '10px',
+            'color' :  '#444'
         });         
     }
 
