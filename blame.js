@@ -28,33 +28,32 @@
     }, 
 
     blame = globals.blame = {};
-
+	blame.showTemplate = "[ show \u2193 ]";
+	blame.hideTemplate = "[ hide \u2191 ]";
     blame.fileTemplate = '<div><a href="{href}">{name}</a></div><br/>';
     blame.popupTemplate = 
+	'<div class="close">[ X ]</div>' +
     '<div class="blame-block">' +
-        '<h3 style="background: #eaf2f4; padding: 10px 20px; margin:0; border-bottom: 1px solid #e1e4e5">Commit: {commit_hash}</h3>' +
-        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' +
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Commit: {commit_hash}</h3>' +
+        '<div class="blame-info" style="padding: 5px 10px">' +
             '<p style="margin-left: 30px;">Committed date: {committed_date} <br/>'+
             'Authored date: {authored_date} <br/>'+ 
             'by <a href="http://github.com/{userlogin}">{username}</a></p>'+                
             '<h4>Message</h4>' +
             '<p>{message}</p>' +
        '</div>' +  
-    '</div>' +
+    '</div>' + 
     '<div class="blame-block">' + 
-        '<h3 style="background: #e2f4fa; padding: 10px 20px; margin:0; border-bottom: 1px solid #e5e1e4">Files</h3>' +
-        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' + 
-            '<h4>Modified</h4>' +
-            '<p>{modified}</p>' +
-            '<h4>Added:</h4>' +
-            '<p>{added}</p>' +
-            '<h4>Deleted</h4>' +
-            '<p>{deleted}</p>' +
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Diff</h3>' +
+		'<span>' + blame.showTemplate + '</span>'+
+        '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
+            '{diff}' +
        '</div>' +   
     '</div>' +     
     '<div class="blame-block">' + 
-        '<h3 style="background: #e2f4fa; padding: 10px 20px; margin:0; border-bottom: 1px solid #e5e1e4">Files</h3>' +
-        '<div class="blame-info" style="background: #f1f4f5; padding: 5px 10px">' + 
+        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Files</h3>' +
+		'<span>' + blame.showTemplate + '</span>'+
+        '<div class="blame-info" style="padding: 5px 10px display:none;">' + 
             '<h4>Modified</h4>' +
             '<p>{modified}</p>' +
             '<h4>Added:</h4>' +
@@ -148,9 +147,11 @@
             'z-index': '100500',
             'display': 'none',       
             'background': '#fff',
-            'padding': '4px',
+            'padding': '6px',
             'padding-top': '10px',
-            'color' :  '#444'
+            'color' :  '#444',
+			'border-radius': '8px',
+			'box-shadow': '0px 0px 10px 0px #888'
         });         
     }
 
