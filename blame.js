@@ -43,3 +43,6 @@
 
 }(window));
 
+$(document).ready(function(){
+    blame.register();
+});
