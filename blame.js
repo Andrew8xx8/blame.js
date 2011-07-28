@@ -110,7 +110,7 @@
         $('#blame-popup').html(popup);
 
         $('#blame-popup').css({            
-            'left': blame.popupPosition.x, 
+            'right': blame.popupPosition.x, 
             'top':  blame.popupPosition.y,
         });        
 
@@ -148,7 +148,7 @@
 //            if (blame.lock) return;             
             blame.lock = true;             
 
-            blame.popupPosition.x = ($(this).offset().left + 500) + 'px';
+            blame.popupPosition.x = '20px';
             blame.popupPosition.y = $(this).offset().top + 'px';
 
             current_commit = $(this).find('a:first').html();
