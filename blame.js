@@ -29,6 +29,16 @@
 
     blame = globals.blame = {};
 
+    blame.fileTemplate = '<span><a href="{href}">{name}</a></span><br/>';
+    blame.popupTemplate = '<h3>Commit</h3>'
+        + '<h4>Modified</h4>{modified}'
+        + '<h4>Added:</h4>{added}'
+        + '<h4>Deleted</h4>{deleted}' 
+        + '<div>Committed by <a href="http://github.com/{userlogin}">{username}</a></div>'; 
+
+    blame.popupPosition = {x: '0px', y: '0px'};
+    blame.lock = false;
+
     blame.loadCommit = function (data){
 
     };
