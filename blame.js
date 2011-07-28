@@ -41,6 +41,46 @@
 
     blame.loadCommit = function (data){
 
+        var popup = ' ', added = 'none', deleted = 'none', modified = 'none';
+        
+        if ( data.commit.added != null) {
+            added = '';
+            for (var i in data.commit.added) {
+                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i]});                        
+            }
+        }
+        
+        if ( data.commit.modified != null) {
+            modified = '';
+            for (var i in data.commit.modified) {
+                modified += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.modified[i].filename});                        
+            }
+        } 
+
+        if ( data.commit.added != null) {
+            for (var i in data.commit.added) {
+                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i]});                        
+            }
+        }  
+
+        popup = blame.fetchTemplate(blame.popupTemplate, {
+            'modified' : modified,
+            'added'    : added,
+            'deleted'  : deleted,
+            'username' : data.commit.author.name,
+            'email'    : data.commit.author.email,
+            'userlogin': data.commit.author.login
+        });
+
+        $('#blame-popup').html(popup);
+
+        $('#blame-popup').css({            
+            'left': blame.popupPosition.x, 
+            'top':  blame.popupPosition.y,
+        });        
+
+        $('#blame-popup').fadeIn();
+        blame.lock = false;
     };
 
     blame.fetchTemplate = function(template, data){
