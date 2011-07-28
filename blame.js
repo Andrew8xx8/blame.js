@@ -27,5 +27,19 @@
         document.getElementsByTagName('head')[0].appendChild(script);
     }, 
 
+    blame = globals.blame = {};
+
+    blame.loadCommit = function (data){
+
+    };
+
+    blame.fetchTemplate = function(template, data){
+
+    };
+
+    blame.register = function() {
+
+    }
+
 }(window));
 
