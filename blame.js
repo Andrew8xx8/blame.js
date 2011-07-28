@@ -54,7 +54,35 @@
     };
 
     blame.register = function() {
+        $('.blame .commitinfo').click(function(){
+//            if (blame.lock) return;             
+            blame.lock = true;             
 
+            blame.popupPosition.x = ($(this).offset().left + 500) + 'px';
+            blame.popupPosition.y = $(this).offset().top + 'px';
+
+            current_commit = $(this).find('a:first').html();
+            $('.blame .commitinfo').css({'background-color': 'transparent'});
+            $('.blame .commitinfo code a').each(function(index, value){            
+                if(current_commit == $(value).html()) {
+                    $(value).parent().parent().css({'background-color': '#faa'});
+                }
+            });        
+
+            jsonp("commits/show" + $(this).find('a:first').attr('href').replace(/\/commit\//, '/'), 'blame.loadCommit'); 
+        }); 
+
+        $('body').append('<div id="blame-popup"></div>');  
+        $('#blame-popup').css({
+            'position': 'absolute',
+            'width':    '300px',
+            'z-index': '100500',
+            'display': 'none',       
+            'background': '#fff',
+            'opacity': 0.9,
+            'padding': '20px',
+            'padding-top': '10px'
+        });         
     }
 
 }(window));
