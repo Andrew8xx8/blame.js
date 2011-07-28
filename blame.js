@@ -152,7 +152,10 @@
             'color' :  '#444',
 			'border-radius': '8px',
 			'box-shadow': '0px 0px 10px 0px #888'
-        });         
+        });
+		$('#blame-popup .close').live('click', function(){
+			$('#blame-popup').fadeOut();
+		});
     }
 
 }(window));
