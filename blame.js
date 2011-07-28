@@ -54,10 +54,10 @@
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Files</h3>' +
 		'<span class="s-h" style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
         '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
-            '<h4>Modified</h4>' +
-            '<p>{modified}</p>' +
             '<h4>Added:</h4>' +
             '<p>{added}</p>' +
+            '<h4>Modified</h4>' +
+            '<p>{modified}</p>' + 
             '<h4>Deleted</h4>' +
             '<p>{deleted}</p>' +
        '</div>' +   
