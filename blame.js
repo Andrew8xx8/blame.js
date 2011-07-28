@@ -32,7 +32,7 @@
 	blame.hideTemplate = "[ hide \u2191 ]";
     blame.fileTemplate = '<div><a href="{href}">{name}</a></div><br/>';
     blame.popupTemplate = 
-	'<div class="close">[ X ]</div>' +
+	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Commit: {commit_hash}</h3>' +
         '<div class="blame-info" style="padding: 5px 10px">' +
@@ -43,16 +43,16 @@
             '<p>{message}</p>' +
        '</div>' +  
     '</div>' + 
-    '<div class="blame-block">' + 
+    '<div class="blame-block" style="position: relative;">' + 
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Diff</h3>' +
-		'<span>' + blame.showTemplate + '</span>'+
+		'<span style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
         '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
             '{diff}' +
        '</div>' +   
     '</div>' +     
-    '<div class="blame-block">' + 
+    '<div class="blame-block" style="position: relative;">' + 
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef">Files</h3>' +
-		'<span>' + blame.showTemplate + '</span>'+
+		'<span style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
         '<div class="blame-info" style="padding: 5px 10px display:none;">' + 
             '<h4>Modified</h4>' +
             '<p>{modified}</p>' +
