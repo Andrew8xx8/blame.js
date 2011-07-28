@@ -39,8 +39,8 @@
     '<div class="blame-block">' +
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
         '<div class="blame-info" style="padding: 5px 10px">' +
-            '<p style="margin-left: 30px;">Committed date: {committed_date} <br/>'+
-            'Authored date: {authored_date} <br/>'+ 
+            '<p style="margin-left: 30px;">Committed: <b>{committed_time}</b> ({committed_date}) <br/>'+
+            'Authored: <b>{authored_time}</b> ({authored_date}) <br/>'+ 
             'by <a href="http://github.com/{userlogin}">{username}</a></p>'+                
             '<h4>Message</h4>' +
             '<p style="max-width: 490px;">{message}</p>' +
@@ -99,15 +99,17 @@
         authored_date = new Date(data.commit.authored_date); 
 
         popup = blame.fetchTemplate(blame.popupTemplate, {
-            'modified' : modified,
-            'added'    : added,
-            'deleted'  : deleted,
-            'username' : data.commit.author.name,
-            'email'    : data.commit.author.email,
-            'userlogin': data.commit.author.login,
-            'message'  : data.commit.message,
-            'committed_date': committed_date.toLocaleDateString() + ' ' + committed_date.toLocaleTimeString(),  
-            'authored_date' : authored_date.toLocaleDateString() + ' ' + authored_date.toLocaleTimeString(),    
+            'modified'  : modified,
+            'added'     : added,
+            'deleted'   : deleted,
+            'username'  : data.commit.author.name,
+            'email'     : data.commit.author.email,
+            'userlogin' : data.commit.author.login,
+            'message'   : data.commit.message,
+            'committed_time' : committed_date.toLocaleTimeString(), 
+            'committed_date' : committed_date.toLocaleDateString(),
+            'authored_time'  : authored_date.toLocaleTimeString(),
+            'authored_date'  : authored_date.toLocaleDateString(),    
         });
 
         $('#blame-popup').html(popup);
