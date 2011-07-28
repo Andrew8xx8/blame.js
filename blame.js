@@ -44,7 +44,13 @@
     };
 
     blame.fetchTemplate = function(template, data){
-
+        var result = template;
+        
+        for(var i in data) {            
+            name = '{' + i + '}';
+            result = result.replace(name, data[i]);
+        }
+        return result;
     };
 
     blame.register = function() {
