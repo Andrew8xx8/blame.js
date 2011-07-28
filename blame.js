@@ -75,23 +75,36 @@
         var popup = ' ', added = 'none', deleted = 'none', modified = 'none';
         
         if ( data.commit.added != null) {
-            added = '';
-            for (var i in data.commit.added) {
-                added += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color': 'green'});                        
+            added = '';             
+            for (var i = 0; i < data.commit.added['length']; i++) {
+                console.log( data.commit.added['length']);
+                added += blame.fetchTemplate(blame.fileTemplate, {
+                    'name' :  data.commit.added[i], 
+                    'href' :  data.commit.added[i],  
+                    'color': 'green'
+                });                        
             }
         }
         
         if ( data.commit.modified != null) {
             modified = '';
-            for (var i in data.commit.modified) {
-                modified += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.modified[i].filename, 'color' : 'blue'});                        
+            for (var i = 0; i < data.commit.modified['length']; i++) {
+                modified += blame.fetchTemplate(blame.fileTemplate, {
+                    'name' :  data.commit.modified[i].filename, 
+                    'href' :  data.commit.modified[i].filename,    
+                    'color' : 'blue'
+                });                        
             }
         } 
 
-        if ( data.commit.added != null) {
+        if ( data.commit.deleted != null) {
             deleted = '';
-            for (var i in data.commit.added) {
-                deleted += blame.fetchTemplate(blame.fileTemplate, {'name' :  data.commit.added[i], 'color':'red'});                        
+            for (var i = 0; i < data.commit.deleted['length']; i++) {
+                deleted += blame.fetchTemplate(blame.fileTemplate, {
+                    'name' :  data.commit.deleted[i],
+                    'href' :  data.commit.deleted[i],  
+                    'color':'red'
+                });                        
             }
         }  
 
