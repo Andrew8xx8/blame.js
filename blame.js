@@ -37,7 +37,7 @@
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
-        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
+        '<h3 style="padding: 10px 35px 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
         '<div class="blame-info" style="padding: 5px 10px">' +
             '<p style="margin-left: 30px;">Committed: <b>{committed_time}</b> ({committed_date}) <br/>'+
             'Authored: <b>{authored_time}</b> ({authored_date}) <br/>'+ 
@@ -121,6 +121,7 @@
             'email'     : data.commit.author.email,
             'userlogin' : data.commit.author.login,
             'message'   : data.commit.message,
+            'commit_hash' : data.commit.id,
             'committed_time' : committed_date.toLocaleTimeString(), 
             'committed_date' : committed_date.toLocaleDateString(),
             'authored_time'  : authored_date.toLocaleTimeString(),
