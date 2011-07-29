@@ -31,9 +31,16 @@
 
     blame.cache = {}; 
 
+    blame.diffPlusLine = '<span style="color: #33aa33">{line}</span><br/>';
+    blame.diffMinusLine = '<span style="color: #aa5533">{line}</span><br/>';
+    blame.diffHeadLine = '<b>{line}</b> <br/>'; 
+    blame.diffLine = '{line}<br/>';
+
 	blame.showTemplate = "[ show \u2193 ]";
 	blame.hideTemplate = "[ hide \u2191 ]";
+
     blame.fileTemplate = '<div><a href="{href}" style="color: {color}">{name}</a></div><br/>';
+
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
@@ -127,7 +134,7 @@
             'committed_date' : committed_date.toLocaleDateString(),
             'authored_time'  : authored_date.toLocaleTimeString(),
             'authored_date'  : authored_date.toLocaleDateString(),    
-            'diff': blame.escape(diff)
+            'diff': blame.colorDiff(diff)
         });
 
         $('#blame-popup').html(popup);
@@ -172,6 +179,29 @@
         return string;
     }
     
+    blame.colorDiff = function(diff) {
+        function wrapDiff(string) {
+            if (string.indexOf('@@ ') == 0) {
+                string = blame.fetchTemplate(blame.diffHeadLine,{'line': blame.escape(string)});    
+            } else if (string.indexOf('+') == 0) { 
+                string = blame.fetchTemplate(blame.diffPlusLine,{'line': blame.escape(string)});    
+            } else if (string.indexOf('-') == 0) { 
+                string = blame.fetchTemplate(blame.diffMinusLine,{'line': blame.escape(string)});     
+            } else {
+                string = blame.fetchTemplate(blame.diffLine,{'line': blame.escape(string)});      
+            }
+
+            return string;
+        }
+
+        lines = diff.split(/\n/);
+        _diff = '';
+    
+        for (var i in lines){
+            _diff += wrapDiff(lines[i]);
+        }      
+        return _diff;
+    }
     blame.register = function() {
         $('.blame .commitinfo').click(function(){
 //            if (blame.lock) return;             
