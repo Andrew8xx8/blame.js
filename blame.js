@@ -29,7 +29,7 @@
 
     blame = globals.blame = {};
 
-    blame.cache = {}; 
+    blame.cache = new Array(); 
 
     blame.diffPlusLine = '<span style="color: #33aa33">{line}</span><br/>';
     blame.diffMinusLine = '<span style="color: #aa5533">{line}</span><br/>';
@@ -85,7 +85,6 @@
         if ( data.commit.added != null) {
             added = '';             
             for (var i = 0; i < data.commit.added['length']; i++) {
-                console.log( data.commit.added['length']);
                 added += blame.fetchTemplate(blame.fileTemplate, {
                     'name' :  data.commit.added[i], 
                     'href' :  data.commit.added[i],  
