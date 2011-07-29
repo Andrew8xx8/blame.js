@@ -52,6 +52,7 @@
     blame.diffMinusLine = '<span style="color: #aa5533">{line}</span><br/>';
     blame.diffHeadLine = '<b>{line}</b> <br/>'; 
     blame.diffLine = '{line}<br/>';
+    blame.diffSeparator = '<hr/>';
 
     blame.loadding = '<img src="https://a248.e.akamai.net/assets.github.com/images/modules/facebox/loading.gif" />';
 	blame.showTemplate = "[ show \u2193 ]";
@@ -116,7 +117,10 @@
             modified = '';
             diff = '';
             for (var i = 0; i < data.commit.modified['length']; i++) {
-                diff +=  data.commit.modified[i].diff;
+                if (i > 0) {
+                    diff += blame.diffSeparator;
+                }
+                diff +=  data.commit.modified[i].diff;                
                 modified += blame.fetchTemplate(blame.fileTemplate, {
                     'name' :  data.commit.modified[i].filename, 
                     'href' :  data.commit.modified[i].filename,    
