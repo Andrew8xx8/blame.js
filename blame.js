@@ -29,7 +29,24 @@
 
     blame = globals.blame = {};
 
-    blame.cache = new Array(); 
+    blame.cache = {
+        store: new Array(),
+        add : function (hash, data){
+            if (this.store[hash] == null) {
+                this.store[hash] = data;
+            }
+        },
+        clear: function (){
+            this.store = Array();
+        },
+        get: function (hash){
+            if (this.store[hash] != null) { 
+                return this.store[hash];    
+            } else {
+                return false;
+            }
+        }
+    };
 
     blame.diffPlusLine = '<span style="color: #33aa33">{line}</span><br/>';
     blame.diffMinusLine = '<span style="color: #aa5533">{line}</span><br/>';
@@ -79,6 +96,8 @@
     blame.lock = false;
 
     blame.loadCommit = function (data){
+
+        blame.cache.add(data.id, data);
 
         var popup = ' ', added = 'none', deleted = 'none', modified = 'none', diff = 'none';
         
@@ -213,7 +232,15 @@
                 }
             });        
 
-            jsonp("commits/show" + $(this).find('a:first').attr('href').replace(/\/commit\//, '/'), 'blame.loadCommit'); 
+            commit_id = $(this).find('a:first').attr('href').match(/\/commit\/(\S*?)$/)[1];
+
+            data = blame.cache.get(commit_id);
+
+            if (data !== false) {
+                blame.loadCommit(data); 
+            } else{
+                jsonp("commits/show" + $(this).find('a:first').attr('href').replace(/\/commit\//, '/'), 'blame.loadCommit'); 
+            }
         }); 
 
         $('body').append('<div id="blame-popup"></div>');  
