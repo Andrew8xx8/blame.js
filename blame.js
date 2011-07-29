@@ -171,11 +171,7 @@
     };
      
     blame.escape = function (string) {     
-        string = string.replace(/&/g, '&amp;');  
-        string = string.replace(/</g, '&lt;');  
-        string = string.replace(/>/g, '&gt;');  
-
-        return string;
+        return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');  
     }
     
     blame.colorDiff = function(diff) {
