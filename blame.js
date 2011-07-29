@@ -53,6 +53,7 @@
     blame.diffHeadLine = '<b>{line}</b> <br/>'; 
     blame.diffLine = '{line}<br/>';
 
+    blame.loadding = '<img src="https://a248.e.akamai.net/assets.github.com/images/modules/facebox/loading.gif" />';
 	blame.showTemplate = "[ show \u2193 ]";
 	blame.hideTemplate = "[ hide \u2191 ]";
 
@@ -92,7 +93,6 @@
        '</div>' +   
     '</div>';
    
-    blame.popupPosition = {x: '0px', y: '0px'};
     blame.lock = false;
 
     blame.loadCommit = function (data){
@@ -157,12 +157,7 @@
 
         $('#blame-popup').html(popup);
 
-        $('#blame-popup').css({            
-            'right': blame.popupPosition.x, 
-            'top':  blame.popupPosition.y,
-        });        
-
-        $('#blame-popup').fadeIn();
+       
         blame.lock = false;
     };
 
@@ -204,7 +199,6 @@
             } else {
                 string = blame.fetchTemplate(blame.diffLine,{'line': blame.escape(string)});      
             }
-
             return string;
         }
 
@@ -213,16 +207,22 @@
     
         for (var i in lines){
             _diff += wrapDiff(lines[i]);
-        }      
+        }                
+
         return _diff;
     }
     blame.register = function() {
         $('.blame .commitinfo').click(function(){
-//            if (blame.lock) return;             
-            blame.lock = true;             
+            //if (blame.lock) return;             
+            blame.lock = true;              
+            
+            $('#blame-popup').html(blame.loadding);
+            $('#blame-popup').css({            
+                'right': '20px', 
+                'top':   $(this).offset().top + 'px',
+            });        
 
-            blame.popupPosition.x = '20px';
-            blame.popupPosition.y = $(this).offset().top + 'px';
+            $('#blame-popup').fadeIn(500);   
 
             current_commit = $(this).find('a:first').html();
             $('.blame .commitinfo').css({'background-color': 'transparent'});
