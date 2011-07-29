@@ -37,24 +37,24 @@
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
-        '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
+        '<h3 style="padding: 10px 35px 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Commit: {commit_hash}</h3>' +
         '<div class="blame-info" style="padding: 5px 10px">' +
             '<p style="margin-left: 30px;">Committed: <b>{committed_time}</b> ({committed_date}) <br/>'+
             'Authored: <b>{authored_time}</b> ({authored_date}) <br/>'+ 
             'by <a href="http://github.com/{userlogin}">{username}</a></p>'+                
             '<h4>Message</h4>' +
-            '<p style="max-width: 490px;">{message}</p>' +
+            '<pre style="max-width: 490px;">{message}</pre>' +
        '</div>' +  
     '</div>' + 
-        // See diff in next version
-/*    '<div class="blame-block" style="position: relative;">' + 
+    '<div class="blame-block" style="position: relative;">' + 
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Diff</h3>' +
 		'<span class="s-h" style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
         '<div class="blame-info" style="padding: 5px 10px; display:none;">' + 
-            '{diff}' +
+            '<pre><code>' +
+                '{diff}' +
+            '</code></pre>' +
        '</div>' +   
-    '</div>' +     
-    */
+    '</div>' +        
     '<div class="blame-block" style="position: relative;">' + 
         '<h3 style="padding: 10px 20px; margin:0; border-bottom: 1px solid #efefef; cursor: pointer;">Files</h3>' +
 		'<span class="s-h" style="position: absolute; right: 10px; top:10px; cursor: pointer;">' + blame.showTemplate + '</span>'+
@@ -67,14 +67,13 @@
             '<p>{deleted}</p>' +
        '</div>' +   
     '</div>';
-        
-
+   
     blame.popupPosition = {x: '0px', y: '0px'};
     blame.lock = false;
 
     blame.loadCommit = function (data){
 
-        var popup = ' ', added = 'none', deleted = 'none', modified = 'none';
+        var popup = ' ', added = 'none', deleted = 'none', modified = 'none', diff = 'none';
         
         if ( data.commit.added != null) {
             added = '';             
@@ -90,11 +89,13 @@
         
         if ( data.commit.modified != null) {
             modified = '';
+            diff = '';
             for (var i = 0; i < data.commit.modified['length']; i++) {
+                diff +=  data.commit.modified[i].diff;
                 modified += blame.fetchTemplate(blame.fileTemplate, {
                     'name' :  data.commit.modified[i].filename, 
                     'href' :  data.commit.modified[i].filename,    
-                    'color' : 'blue'
+                    'color' : 'blue',                    
                 });                        
             }
         } 
@@ -120,11 +121,13 @@
             'username'  : data.commit.author.name,
             'email'     : data.commit.author.email,
             'userlogin' : data.commit.author.login,
-            'message'   : data.commit.message,
+            'message'   : blame.escape(data.commit.message),
+            'commit_hash' : data.commit.id,
             'committed_time' : committed_date.toLocaleTimeString(), 
             'committed_date' : committed_date.toLocaleDateString(),
             'authored_time'  : authored_date.toLocaleTimeString(),
             'authored_date'  : authored_date.toLocaleDateString(),    
+            'diff': blame.escape(diff)
         });
 
         $('#blame-popup').html(popup);
@@ -160,7 +163,15 @@
         }
         return result;
     };
+     
+    blame.escape = function (string) {     
+        string = string.replace(/&/g, '&amp;');  
+        string = string.replace(/</g, '&lt;');  
+        string = string.replace(/>/g, '&gt;');  
 
+        return string;
+    }
+    
     blame.register = function() {
         $('.blame .commitinfo').click(function(){
 //            if (blame.lock) return;             
