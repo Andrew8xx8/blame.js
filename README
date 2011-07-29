@@ -4,4 +4,24 @@ Feachures:
     - selects all same commits in one color;
     - show addition information about commit.
 
+For more information see this screenshots:
+    https://github.com/Andrew8xx8/blame.js/blob/master/blame.jpg
+    https://github.com/Andrew8xx8/blame.js/blob/master/blame-diff.jpg
 
+Changelog:
+    version 1.1:
+        [+] Diffs separator added.  
+        [+] Loadding animation added. 
+        [+] Cache post request feachure. 
+        [+] ColorDiff feachure.
+        [+] Diff show feachure. 
+
+    version 1.0:       
+        [*] Human friendly date format.
+        [+] New info about commit.
+        [+] Color files feachure. 
+        [+] Show/hide feachure. 
+        [+] Close funciton. 
+        [+] loadCommit function added.
+        [+] Register function added. 
+        [+] Template fetcher function added. 
