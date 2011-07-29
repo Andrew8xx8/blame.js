@@ -2,7 +2,7 @@
  * blame.js is user JavaScript file wich will be include to github page and adds new feachures on blame page.i
  *
  * @author Andrew Kulakov <avk@8xx8.ru>
- * @version 1.0.0
+ * @version 1.1.0
  * @license https://github.com/Andrew8xx8/blame.js/blob/master/MIT-LICENSE.txt
  * @copyright Andrew Kulakov (c) 2011
  */
