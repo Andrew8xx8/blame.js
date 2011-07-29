@@ -12,7 +12,7 @@
     var apiRoot = "https://github.com/api/v2/json/",
 
     jsonp = function (url, callback, context) {
-        script = document.createElement("script");
+        var script = document.createElement("script");
 
         var prefix = "?";
         if (url.indexOf("?") >= 0)
@@ -29,11 +29,37 @@
 
     blame = globals.blame = {};
 
-    blame.cache = {}; 
+    blame.cache = {
+        store: new Array(),
+        add : function (hash, data){
+            if (this.store[hash] == null) {
+                this.store[hash] = data;
+            }
+        },
+        clear: function (){
+            this.store = Array();
+        },
+        get: function (hash){
+            if (this.store[hash] != null) { 
+                return this.store[hash];    
+            } else {
+                return false;
+            }
+        }
+    };
 
+    blame.diffPlusLine = '<span style="color: #33aa33">{line}</span><br/>';
+    blame.diffMinusLine = '<span style="color: #aa5533">{line}</span><br/>';
+    blame.diffHeadLine = '<b>{line}</b> <br/>'; 
+    blame.diffLine = '{line}<br/>';
+    blame.diffSeparator = '<hr/>';
+
+    blame.loadding = '<img src="https://a248.e.akamai.net/assets.github.com/images/modules/facebox/loading.gif" />';
 	blame.showTemplate = "[ show \u2193 ]";
 	blame.hideTemplate = "[ hide \u2191 ]";
+
     blame.fileTemplate = '<div><a href="{href}" style="color: {color}">{name}</a></div><br/>';
+
     blame.popupTemplate = 
 	'<div class="close" style="position: absolute; right: 16px; top:10px; cursor: pointer;">[ X ]</div>' +
     '<div class="blame-block">' +
@@ -68,17 +94,17 @@
        '</div>' +   
     '</div>';
    
-    blame.popupPosition = {x: '0px', y: '0px'};
     blame.lock = false;
 
     blame.loadCommit = function (data){
+
+        blame.cache.add(data.id, data);
 
         var popup = ' ', added = 'none', deleted = 'none', modified = 'none', diff = 'none';
         
         if ( data.commit.added != null) {
             added = '';             
             for (var i = 0; i < data.commit.added['length']; i++) {
-                console.log( data.commit.added['length']);
                 added += blame.fetchTemplate(blame.fileTemplate, {
                     'name' :  data.commit.added[i], 
                     'href' :  data.commit.added[i],  
@@ -91,7 +117,10 @@
             modified = '';
             diff = '';
             for (var i = 0; i < data.commit.modified['length']; i++) {
-                diff +=  data.commit.modified[i].diff;
+                if (i > 0) {
+                    diff += blame.diffSeparator;
+                }
+                diff +=  data.commit.modified[i].diff;                
                 modified += blame.fetchTemplate(blame.fileTemplate, {
                     'name' :  data.commit.modified[i].filename, 
                     'href' :  data.commit.modified[i].filename,    
@@ -127,17 +156,12 @@
             'committed_date' : committed_date.toLocaleDateString(),
             'authored_time'  : authored_date.toLocaleTimeString(),
             'authored_date'  : authored_date.toLocaleDateString(),    
-            'diff': blame.escape(diff)
+            'diff': blame.colorDiff(diff)
         });
 
         $('#blame-popup').html(popup);
 
-        $('#blame-popup').css({            
-            'right': blame.popupPosition.x, 
-            'top':  blame.popupPosition.y,
-        });        
-
-        $('#blame-popup').fadeIn();
+       
         blame.lock = false;
     };
 
@@ -165,20 +189,44 @@
     };
      
     blame.escape = function (string) {     
-        string = string.replace(/&/g, '&amp;');  
-        string = string.replace(/</g, '&lt;');  
-        string = string.replace(/>/g, '&gt;');  
-
-        return string;
+        return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');  
     }
     
+    blame.colorDiff = function(diff) {
+        function wrapDiff(string) {
+            if (string.indexOf('@@ ') == 0) {
+                string = blame.fetchTemplate(blame.diffHeadLine,{'line': blame.escape(string)});    
+            } else if (string.indexOf('+') == 0) { 
+                string = blame.fetchTemplate(blame.diffPlusLine,{'line': blame.escape(string)});    
+            } else if (string.indexOf('-') == 0) { 
+                string = blame.fetchTemplate(blame.diffMinusLine,{'line': blame.escape(string)});     
+            } else {
+                string = blame.fetchTemplate(blame.diffLine,{'line': blame.escape(string)});      
+            }
+            return string;
+        }
+
+        lines = diff.split(/\n/);
+        _diff = '';
+    
+        for (var i in lines){
+            _diff += wrapDiff(lines[i]);
+        }                
+
+        return _diff;
+    }
     blame.register = function() {
         $('.blame .commitinfo').click(function(){
-//            if (blame.lock) return;             
-            blame.lock = true;             
+            //if (blame.lock) return;             
+            blame.lock = true;              
+            
+            $('#blame-popup').html(blame.loadding);
+            $('#blame-popup').css({            
+                'right': '20px', 
+                'top':   $(this).offset().top + 'px',
+            });        
 
-            blame.popupPosition.x = '20px';
-            blame.popupPosition.y = $(this).offset().top + 'px';
+            $('#blame-popup').fadeIn(500);   
 
             current_commit = $(this).find('a:first').html();
             $('.blame .commitinfo').css({'background-color': 'transparent'});
@@ -188,7 +236,15 @@
                 }
             });        
 
-            jsonp("commits/show" + $(this).find('a:first').attr('href').replace(/\/commit\//, '/'), 'blame.loadCommit'); 
+            commit_id = $(this).find('a:first').attr('href').match(/\/commit\/(\S*?)$/)[1];
+
+            data = blame.cache.get(commit_id);
+
+            if (data !== false) {
+                blame.loadCommit(data); 
+            } else{
+                jsonp("commits/show" + $(this).find('a:first').attr('href').replace(/\/commit\//, '/'), 'blame.loadCommit'); 
+            }
         }); 
 
         $('body').append('<div id="blame-popup"></div>');  
