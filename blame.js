@@ -12,7 +12,7 @@
     var apiRoot = "https://github.com/api/v2/json/",
 
     jsonp = function (url, callback, context) {
-        script = document.createElement("script");
+        var script = document.createElement("script");
 
         var prefix = "?";
         if (url.indexOf("?") >= 0)
